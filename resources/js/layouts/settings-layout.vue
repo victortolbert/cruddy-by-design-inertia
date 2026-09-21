@@ -6,7 +6,7 @@
           Settings
         </h1>
         <p class="text-muted">
-          Manage your profile and appearance settings
+          Manage your profile and account settings
         </p>
       </div>
 
@@ -40,6 +40,7 @@
 import type { NavigationMenuItem } from '@nuxt/ui'
 import { usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
+import { edit as editAccount } from '@/routes/account'
 import { edit as editAppearance } from '@/routes/appearance'
 import { edit as editProfile } from '@/routes/profile'
 import AppLayout from './app-layout.vue'
@@ -52,5 +53,6 @@ const currentPath = computed(() => new URL(page.url, 'http://localhost').pathnam
 const items = computed<NavigationMenuItem[]>(() => [
   { label: 'Profile', to: editProfile().url, active: currentPath.value === editProfile().url },
   { label: 'Appearance', to: editAppearance().url, active: currentPath.value === editAppearance().url },
+  { label: 'Account', to: editAccount().url, active: currentPath.value === editAccount().url },
 ])
 </script>

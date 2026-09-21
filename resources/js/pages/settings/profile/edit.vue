@@ -44,16 +44,12 @@
         :loading="form.processing"
       />
     </UForm>
-
-    <USeparator class="my-10" />
-
-    <DeleteUser />
   </SettingsLayout>
 </template>
 
 <script setup lang="ts">
 import { Head, useForm, usePage } from '@inertiajs/vue3'
-import { updateProfileInformation } from '@/actions/App/Http/Controllers/Settings/ProfileController'
+import { update as updateProfile } from '@/actions/App/Http/Controllers/Settings/ProfileController'
 import SettingsLayout from '@/layouts/settings-layout.vue'
 
 const page = usePage()
@@ -64,6 +60,6 @@ const form = useForm({
 })
 
 function submit() {
-  form.submit(updateProfileInformation(), { preserveScroll: true })
+  form.submit(updateProfile(), { preserveScroll: true })
 }
 </script>

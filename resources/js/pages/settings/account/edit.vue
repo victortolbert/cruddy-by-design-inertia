@@ -1,14 +1,10 @@
 <template>
-  <section class="space-y-6">
-    <div>
-      <h3 class="font-medium">
-        Delete account
-      </h3>
-      <p class="text-sm text-muted">
-        Delete your account and all of its resources
-      </p>
-    </div>
+  <Head title="Account settings" />
 
+  <SettingsLayout
+    heading="Account"
+    subheading="Delete your account and all of its resources"
+  >
     <UAlert
       color="error"
       variant="soft"
@@ -21,6 +17,7 @@
       v-model:open="open"
       title="Are you sure you want to delete your account?"
       description="Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account."
+      class="mt-6"
     >
       <UButton
         color="error"
@@ -66,13 +63,14 @@
         </UForm>
       </template>
     </UModal>
-  </section>
+  </SettingsLayout>
 </template>
 
 <script setup lang="ts">
-import { useForm } from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import { deleteUser } from '@/actions/App/Http/Controllers/Settings/ProfileController'
+import { destroy as destroyAccount } from '@/actions/App/Http/Controllers/Settings/AccountController'
+import SettingsLayout from '@/layouts/settings-layout.vue'
 
 const open = ref(false)
 const form = useForm({ password: '' })
@@ -84,7 +82,7 @@ function close() {
 }
 
 function destroy() {
-  form.submit(deleteUser(), {
+  form.submit(destroyAccount(), {
     preserveScroll: true,
     onError: () => form.reset(),
   })

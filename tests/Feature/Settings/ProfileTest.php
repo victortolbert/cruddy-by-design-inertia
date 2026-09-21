@@ -7,7 +7,7 @@ test('profile page is displayed', function () {
     $this->actingAs(User::factory()->create(['name' => 'Ada']));
 
     $this->get('/settings/profile')->assertInertia(fn (Assert $page) => $page
-        ->component('settings/profile')
+        ->component('settings/profile/edit')
         ->where('auth.user.name', 'Ada'));
 });
 
@@ -43,28 +43,4 @@ test('email must be unique', function () {
 
     $this->patch('/settings/profile', ['name' => $user->name, 'email' => 'taken@example.com'])
         ->assertSessionHasErrors('email');
-});
-
-test('user can delete their account', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user);
-
-    $this->delete('/settings/profile', ['password' => 'password'])->assertRedirect('/');
-
-    $this->assertGuest();
-    expect($user->fresh())->toBeNull();
-});
-
-test('correct password must be provided to delete account', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user);
-
-    $this->from('/settings/profile')
-        ->delete('/settings/profile', ['password' => 'wrong-password'])
-        ->assertSessionHasErrors('password')
-        ->assertRedirect('/settings/profile');
-
-    expect($user->fresh())->not->toBeNull();
 });

@@ -7,5 +7,5 @@ test('appearance page is displayed', function () {
     $this->actingAs(User::factory()->create());
 
     $this->get('/settings/appearance')
-        ->assertInertia(fn (Assert $page) => $page->component('settings/appearance'));
+        ->assertInertia(fn (Assert $page) => $page->component('settings/appearance/edit'));
 });

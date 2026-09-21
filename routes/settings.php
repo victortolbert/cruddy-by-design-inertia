@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Settings\AccountController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,8 +8,10 @@ Route::middleware('auth')->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('settings/profile', [ProfileController::class, 'updateProfileInformation'])->name('profile.update-profile-information');
-    Route::delete('settings/profile', [ProfileController::class, 'deleteUser'])->name('profile.delete-user');
+    Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::inertia('settings/appearance', 'settings/appearance')->name('appearance.edit');
+    Route::inertia('settings/appearance', 'settings/appearance/edit')->name('appearance.edit');
+
+    Route::get('settings/account', [AccountController::class, 'edit'])->name('account.edit');
+    Route::delete('settings/account', [AccountController::class, 'destroy'])->name('account.destroy');
 });
