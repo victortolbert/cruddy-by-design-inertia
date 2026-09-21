@@ -83,8 +83,8 @@ const patterns = [
   },
   {
     title: '4. Think of different states as different resources',
-    body: 'Publishing an episode is not Episodes@publish. A published episode is a state, so publishing is PublishedEpisodesController@store and unpublishing is @destroy. The same move shapes listening history: where you are in an episode is PlaybackProgressController@update / @destroy, and a state you can filter by is InProgressEpisodesController@index.',
-    code: ['POST /published-episodes', 'DELETE /published-episodes/{episode}', 'PUT /playback-progress/{episode}', 'GET /in-progress-episodes'],
+    body: 'Publishing an episode is not Episodes@publish. A published episode is a state, so publishing is PublishedEpisodesController@store and unpublishing is @destroy. The same move shapes listening history: where you are in an episode is PlaybackProgressController@update / @destroy, and the states you can filter by are InProgressEpisodesController@index and CompletedEpisodesController@index.',
+    code: ['POST /published-episodes', 'DELETE /published-episodes/{episode}', 'PUT /playback-progress/{episode}', 'GET /in-progress-episodes', 'GET /completed-episodes'],
   },
 ]
 </script>

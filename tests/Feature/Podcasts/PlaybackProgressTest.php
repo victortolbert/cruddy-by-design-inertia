@@ -69,8 +69,8 @@ describe('destroy', function () {
     });
 });
 
-describe('in-progress episodes', function () {
-    test('lists in-progress episodes but not completed ones', function () {
+describe('in-progress and completed episodes', function () {
+    test('lists in-progress episodes separately from completed ones', function () {
         $user = User::factory()->create();
         $started = Episode::factory()->create(['title' => 'Started Episode']);
         $finished = Episode::factory()->create(['title' => 'Finished Episode']);
@@ -81,6 +81,10 @@ describe('in-progress episodes', function () {
         $this->get('/in-progress-episodes')->assertInertia(fn (Assert $page) => $page
             ->component('in-progress-episodes/index')
             ->has('inProgress', 1, fn (Assert $progress) => $progress->where('episode.title', 'Started Episode')->etc()));
+
+        $this->get('/completed-episodes')->assertInertia(fn (Assert $page) => $page
+            ->component('completed-episodes/index')
+            ->has('completed', 1, fn (Assert $progress) => $progress->where('episode.title', 'Finished Episode')->etc()));
     });
 
     test('shows continue listening on the podcasts index', function () {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompletedEpisodesController;
 use App\Http\Controllers\EpisodesController;
 use App\Http\Controllers\InProgressEpisodesController;
 use App\Http\Controllers\PlaybackProgressController;
@@ -55,4 +56,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('playback-progress/{episode}', [PlaybackProgressController::class, 'destroy'])->name('playback-progress.destroy');
 
     Route::get('in-progress-episodes', [InProgressEpisodesController::class, 'index'])->name('in-progress-episodes.index');
+    Route::get('completed-episodes', [CompletedEpisodesController::class, 'index'])->name('completed-episodes.index');
 });

@@ -31,6 +31,14 @@
             size="sm"
           />
           <UButton
+            :to="completedIndex().url"
+            label="Played"
+            icon="i-lucide-circle-check"
+            color="neutral"
+            variant="ghost"
+            size="sm"
+          />
+          <UButton
             :to="createPodcasts().url"
             label="New podcast"
             icon="i-lucide-plus"
@@ -121,6 +129,7 @@ import type { Episode, Paginated, PlaybackProgress, Podcast } from '@/types'
 import { Head } from '@inertiajs/vue3'
 import { create as createPodcasts, index as indexPodcasts } from '@/actions/App/Http/Controllers/PodcastsController'
 import AppLayout from '@/layouts/app-layout.vue'
+import { index as completedIndex } from '@/routes/completed-episodes'
 import { index as inProgressIndex } from '@/routes/in-progress-episodes'
 import { patterns } from '@/routes/podcasts'
 import { index as subscriptionsIndex } from '@/routes/subscriptions'
