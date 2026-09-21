@@ -15,9 +15,12 @@ use Inertia\Response;
 
 class PodcastsController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $user = $request->user();
+
         return Inertia::render('podcasts/index', [
+            'subscribedPodcasts' => PodcastResource::collection($user->subscribedPodcasts()->orderBy('title')->get())->resolve($request),
             'podcasts' => PodcastResource::collection(Podcast::query()->orderBy('title')->paginate(24)),
         ]);
     }
@@ -31,6 +34,7 @@ class PodcastsController extends Controller
         return Inertia::render('podcasts/show', [
             'podcast' => PodcastResource::make($podcast)->resolve($request),
             'episodes' => EpisodeResource::collection($podcast->recentEpisodesVisibleTo($user))->resolve($request),
+            'subscription' => $user->subscriptionTo($podcast)?->only('id'),
         ]);
     }
 

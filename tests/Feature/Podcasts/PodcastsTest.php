@@ -9,14 +9,17 @@ describe('index', function () {
         $this->get('/podcasts')->assertRedirect('/login');
     });
 
-    test('lists every podcast', function () {
-        Podcast::factory()->create(['title' => 'First Show']);
+    test('lists every podcast with subscriptions as a separate prop', function () {
+        $user = User::factory()->create();
+        $subscribed = Podcast::factory()->create(['title' => 'Subscribed Show']);
         Podcast::factory()->create(['title' => 'Other Show']);
+        $user->subscriptions()->create(['podcast_id' => $subscribed->id]);
 
-        $this->actingAs(User::factory()->create());
+        $this->actingAs($user);
 
         $this->get('/podcasts')->assertInertia(fn (Assert $page) => $page
             ->component('podcasts/index')
+            ->has('subscribedPodcasts', 1, fn (Assert $podcast) => $podcast->where('title', 'Subscribed Show')->etc())
             ->has('podcasts.data', 2)
             ->where('podcasts.meta.total', 2));
     });
@@ -30,7 +33,8 @@ describe('show', function () {
         $this->get('/podcasts/full-stack-radio')->assertInertia(fn (Assert $page) => $page
             ->component('podcasts/show')
             ->where('podcast.title', 'Full Stack Radio')
-            ->where('podcast.is_owner', false));
+            ->where('podcast.is_owner', false)
+            ->where('subscription', null));
     });
 
     test('returns 404 for an unknown slug', function () {

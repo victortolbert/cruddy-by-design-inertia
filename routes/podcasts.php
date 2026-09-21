@@ -4,6 +4,7 @@ use App\Http\Controllers\EpisodesController;
 use App\Http\Controllers\PodcastCoverImageController;
 use App\Http\Controllers\PodcastEpisodesController;
 use App\Http\Controllers\PodcastsController;
+use App\Http\Controllers\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,4 +40,7 @@ Route::middleware('auth')->group(function () {
     // Tip 2: a property edited on its own is its own resource
     Route::put('podcasts/{podcast:slug}/cover-image', [PodcastCoverImageController::class, 'update'])->name('podcast-cover-image.update');
     Route::delete('podcasts/{podcast:slug}/cover-image', [PodcastCoverImageController::class, 'destroy'])->name('podcast-cover-image.destroy');
+
+    // Tip 3: the pivot is its own resource
+    Route::resource('subscriptions', SubscriptionsController::class)->only(['store', 'destroy']);
 });

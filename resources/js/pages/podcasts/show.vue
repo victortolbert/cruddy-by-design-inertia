@@ -30,6 +30,11 @@
           </p>
 
           <div class="flex flex-wrap items-center gap-2">
+            <SubscriptionToggle
+              :podcast="podcast"
+              :subscription="subscription"
+            />
+
             <UButton
               v-if="podcast.website"
               :to="podcast.website"
@@ -110,5 +115,6 @@ import AppLayout from '@/layouts/app-layout.vue'
 defineProps<{
   podcast: Podcast
   episodes: Episode[]
+  subscription: { id: number } | null
 }>()
 </script>

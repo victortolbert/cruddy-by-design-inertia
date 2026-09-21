@@ -9,7 +9,7 @@
             Podcasts
           </h1>
           <p class="mt-1 text-muted">
-            Discover shows and their episodes.
+            Discover shows and subscribe to the ones you follow.
           </p>
         </div>
 
@@ -22,6 +22,22 @@
           />
         </div>
       </div>
+
+      <section
+        v-if="subscribedPodcasts.length"
+        class="space-y-4"
+      >
+        <h2 class="text-lg font-medium">
+          My subscriptions
+        </h2>
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <PodcastCard
+            v-for="podcast in subscribedPodcasts"
+            :key="podcast.id"
+            :podcast="podcast"
+          />
+        </div>
+      </section>
 
       <section class="space-y-4">
         <h2 class="text-lg font-medium">
@@ -75,6 +91,7 @@ import AppLayout from '@/layouts/app-layout.vue'
 import { patterns } from '@/routes/podcasts'
 
 defineProps<{
+  subscribedPodcasts: Podcast[]
   podcasts: Paginated<Podcast>
 }>()
 

@@ -76,5 +76,10 @@ const patterns = [
     body: 'The cover image is uploaded on its own, not alongside the title and description, so it is PodcastCoverImageController@update and @destroy — never Podcasts@updateCoverImage.',
     code: ['PUT /podcasts/{slug}/cover-image', 'DELETE /podcasts/{slug}/cover-image', '<PodcastCoverImage> calls PodcastCoverImageController.update() / .destroy()'],
   },
+  {
+    title: '3. Treat pivot models as their own resource',
+    body: 'Subscribing is not Podcasts@subscribe. A Subscription is a real model with its own ID: subscribing is SubscriptionsController@store with a podcast_id, unsubscribing is @destroy with the subscription\'s ID.',
+    code: ['POST /subscriptions', 'DELETE /subscriptions/{subscription}', '<SubscriptionToggle> calls SubscriptionsController.store() / .destroy(id)'],
+  },
 ]
 </script>

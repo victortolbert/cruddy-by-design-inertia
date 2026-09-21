@@ -50,7 +50,7 @@
           Delete podcast
         </h2>
         <p class="text-muted">
-          Deletes every episode with it. This cannot be undone.
+          Deletes every episode and subscription with it. This cannot be undone.
         </p>
         <UButton
           color="error"

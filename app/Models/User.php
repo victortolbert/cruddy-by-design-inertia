@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,6 +37,32 @@ class User extends Authenticatable
     public function podcasts(): HasMany
     {
         return $this->hasMany(Podcast::class);
+    }
+
+    /**
+     * @return HasMany<Subscription, $this>
+     */
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /**
+     * @return BelongsToMany<Podcast, $this>
+     */
+    public function subscribedPodcasts(): BelongsToMany
+    {
+        return $this->belongsToMany(Podcast::class, 'subscriptions')->withTimestamps();
+    }
+
+    public function subscriptionTo(Podcast $podcast): ?Subscription
+    {
+        return $this->subscriptions()->whereBelongsTo($podcast)->first();
+    }
+
+    public function isSubscribedTo(Podcast $podcast): bool
+    {
+        return $this->subscriptions()->whereBelongsTo($podcast)->exists();
     }
 
     /**
