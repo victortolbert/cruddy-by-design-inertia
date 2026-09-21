@@ -27,6 +27,14 @@ class PodcastFactory extends Factory
             'author' => fake()->name(),
             'website' => fake()->url(),
             'feed_url' => fake()->url(),
+            'cover_path' => null,
         ];
+    }
+
+    public function withCoverImage(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'cover_path' => 'podcast-covers/'.Str::random(20).'.jpg',
+        ]);
     }
 }

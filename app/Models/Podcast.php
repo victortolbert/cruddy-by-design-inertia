@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -22,10 +23,11 @@ use Illuminate\Support\Str;
  * @property string|null $author
  * @property string|null $website
  * @property string|null $feed_url
+ * @property string|null $cover_path
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['title', 'slug', 'description', 'author', 'website', 'feed_url'])]
+#[Fillable(['title', 'slug', 'description', 'author', 'website', 'feed_url', 'cover_path'])]
 class Podcast extends Model
 {
     /** @use HasFactory<PodcastFactory> */
@@ -64,6 +66,18 @@ class Podcast extends Model
     public function isOwnedBy(User $user): bool
     {
         return $this->user_id === $user->getKey();
+    }
+
+    public function hasCoverImage(): bool
+    {
+        return $this->cover_path !== null;
+    }
+
+    public function coverImageUrl(): ?string
+    {
+        return $this->hasCoverImage()
+            ? Storage::disk(config('podcasts.cover_disk'))->url($this->cover_path)
+            : null;
     }
 
     public function websiteHost(): ?string

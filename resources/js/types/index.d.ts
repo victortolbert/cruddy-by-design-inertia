@@ -27,6 +27,7 @@ export interface Podcast {
   website: string | null
   website_host: string | null
   feed_url: string | null
+  cover_image_url: string | null
   is_owner: boolean
 }
 

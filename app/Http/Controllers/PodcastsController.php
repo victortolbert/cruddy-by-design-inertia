@@ -9,6 +9,7 @@ use App\Models\Podcast;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -69,6 +70,10 @@ class PodcastsController extends Controller
     public function destroy(Podcast $podcast): RedirectResponse
     {
         Gate::authorize('delete', $podcast);
+
+        if ($podcast->cover_path) {
+            Storage::disk(config('podcasts.cover_disk'))->delete($podcast->cover_path);
+        }
 
         $podcast->delete();
 

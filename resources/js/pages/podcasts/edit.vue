@@ -38,6 +38,15 @@
 
       <section class="space-y-4">
         <h2 class="text-lg font-medium">
+          Cover image
+        </h2>
+        <PodcastCoverImage :podcast="podcast" />
+      </section>
+
+      <USeparator />
+
+      <section class="space-y-4">
+        <h2 class="text-lg font-medium">
           Delete podcast
         </h2>
         <p class="text-muted">

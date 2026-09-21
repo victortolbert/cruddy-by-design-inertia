@@ -27,6 +27,7 @@ class PodcastResource extends JsonResource
             'website' => $this->website,
             'website_host' => $this->websiteHost(),
             'feed_url' => $this->feed_url,
+            'cover_image_url' => $this->coverImageUrl(),
             'is_owner' => $user !== null && $this->isOwnedBy($user),
         ];
     }

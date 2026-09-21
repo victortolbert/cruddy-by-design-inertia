@@ -1,5 +1,13 @@
 <template>
+  <img
+    v-if="podcast.cover_image_url"
+    :src="podcast.cover_image_url"
+    :alt="podcast.title"
+    class="shrink-0 bg-elevated object-cover"
+    :class="sizes[size]"
+  >
   <div
+    v-else
     class="flex shrink-0 items-center justify-center bg-linear-to-br from-elevated to-accented font-semibold text-muted"
     :class="sizes[size]"
     aria-hidden="true"

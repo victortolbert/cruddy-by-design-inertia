@@ -71,5 +71,10 @@ const patterns = [
     body: 'Listing a podcast\'s episodes is not Podcasts@episodes. It is PodcastEpisodesController@index, and creating one is @create / @store.',
     code: ['GET /podcasts/{slug}/episodes → PodcastEpisodesController@index', 'POST /podcasts/{slug}/episodes → PodcastEpisodesController@store'],
   },
+  {
+    title: '2. Treat properties edited independently as their own resource',
+    body: 'The cover image is uploaded on its own, not alongside the title and description, so it is PodcastCoverImageController@update — never Podcasts@updateCoverImage.',
+    code: ['PUT /podcasts/{slug}/cover-image', '<PodcastCoverImage> calls PodcastCoverImageController.update()'],
+  },
 ]
 </script>

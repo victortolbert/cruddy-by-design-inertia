@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EpisodesController;
+use App\Http\Controllers\PodcastCoverImageController;
 use App\Http\Controllers\PodcastEpisodesController;
 use App\Http\Controllers\PodcastsController;
 use Illuminate\Support\Facades\Route;
@@ -34,4 +35,7 @@ Route::middleware('auth')->group(function () {
         ->parameters(['podcasts' => 'podcast', 'episodes' => 'episode'])
         ->scoped(['podcast' => 'slug', 'episode' => 'slug'])
         ->names('episodes');
+
+    // Tip 2: a property edited on its own is its own resource
+    Route::put('podcasts/{podcast:slug}/cover-image', [PodcastCoverImageController::class, 'update'])->name('podcast-cover-image.update');
 });
