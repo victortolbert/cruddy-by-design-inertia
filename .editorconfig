@@ -1,0 +1,15 @@
+# Mirrors uxlab's .editorconfig for the JS/Vue side. PHP keeps PSR-12's four
+# spaces (enforced by Pint), so it is scoped out below.
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{php,blade.php,xml,neon}]
+indent_size = 4
+
+[*.md]
+trim_trailing_whitespace = false
