@@ -46,6 +46,11 @@ export interface Episode {
   podcast?: Podcast
 }
 
+export interface Subscription {
+  id: number
+  podcast: Podcast
+}
+
 export interface PaginationLink {
   url: string | null
   label: string

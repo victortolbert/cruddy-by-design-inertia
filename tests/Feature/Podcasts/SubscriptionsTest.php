@@ -3,6 +3,7 @@
 use App\Models\Podcast;
 use App\Models\Subscription;
 use App\Models\User;
+use Inertia\Testing\AssertableInertia as Assert;
 
 describe('store', function () {
     test('creates a subscription for the current user', function () {
@@ -56,5 +57,21 @@ describe('destroy', function () {
         $this->delete(route('subscriptions.destroy', $theirs))->assertNotFound();
 
         $this->assertModelExists($theirs);
+    });
+});
+
+describe('index', function () {
+    test('lists only the current user\'s subscriptions', function () {
+        $user = User::factory()->create();
+        $mine = Podcast::factory()->create(['title' => 'Mine Show']);
+        Subscription::factory()->for($user)->for($mine)->create();
+        Subscription::factory()->create();
+        $this->actingAs($user);
+
+        $this->get('/subscriptions')->assertInertia(fn (Assert $page) => $page
+            ->component('subscriptions/index')
+            ->has('subscriptions', 1, fn (Assert $subscription) => $subscription
+                ->where('podcast.title', 'Mine Show')
+                ->etc()));
     });
 });

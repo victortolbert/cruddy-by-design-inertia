@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubscriptionRequest;
+use App\Http\Resources\SubscriptionResource;
 use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 /**
  * Tip 3: the pivot is its own resource. Subscribing is `store`, unsubscribing
@@ -13,6 +16,18 @@ use Illuminate\Http\Request;
  */
 class SubscriptionsController extends Controller
 {
+    public function index(Request $request): Response
+    {
+        $subscriptions = $request->user()->subscriptions()
+            ->with('podcast')
+            ->latest()
+            ->get();
+
+        return Inertia::render('subscriptions/index', [
+            'subscriptions' => SubscriptionResource::collection($subscriptions)->resolve($request),
+        ]);
+    }
+
     public function store(StoreSubscriptionRequest $request): RedirectResponse
     {
         Subscription::query()->firstOrCreate([

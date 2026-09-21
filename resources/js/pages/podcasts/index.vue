@@ -15,6 +15,14 @@
 
         <div class="flex flex-wrap items-center gap-2">
           <UButton
+            :to="subscriptionsIndex().url"
+            label="Subscriptions"
+            icon="i-lucide-bookmark"
+            color="neutral"
+            variant="ghost"
+            size="sm"
+          />
+          <UButton
             :to="createPodcasts().url"
             label="New podcast"
             icon="i-lucide-plus"
@@ -89,6 +97,7 @@ import { Head } from '@inertiajs/vue3'
 import { create as createPodcasts, index as indexPodcasts } from '@/actions/App/Http/Controllers/PodcastsController'
 import AppLayout from '@/layouts/app-layout.vue'
 import { patterns } from '@/routes/podcasts'
+import { index as subscriptionsIndex } from '@/routes/subscriptions'
 
 defineProps<{
   subscribedPodcasts: Podcast[]

@@ -42,5 +42,5 @@ Route::middleware('auth')->group(function () {
     Route::delete('podcasts/{podcast:slug}/cover-image', [PodcastCoverImageController::class, 'destroy'])->name('podcast-cover-image.destroy');
 
     // Tip 3: the pivot is its own resource
-    Route::resource('subscriptions', SubscriptionsController::class)->only(['store', 'destroy']);
+    Route::resource('subscriptions', SubscriptionsController::class)->only(['index', 'store', 'destroy']);
 });

@@ -78,8 +78,8 @@ const patterns = [
   },
   {
     title: '3. Treat pivot models as their own resource',
-    body: 'Subscribing is not Podcasts@subscribe. A Subscription is a real model with its own ID: subscribing is SubscriptionsController@store with a podcast_id, unsubscribing is @destroy with the subscription\'s ID.',
-    code: ['POST /subscriptions', 'DELETE /subscriptions/{subscription}', '<SubscriptionToggle> calls SubscriptionsController.store() / .destroy(id)'],
+    body: 'Subscribing is not Podcasts@subscribe. A Subscription is a real model with its own ID: subscribing is SubscriptionsController@store with a podcast_id, unsubscribing is @destroy with the subscription\'s ID, and your list is @index.',
+    code: ['POST /subscriptions', 'DELETE /subscriptions/{subscription}', 'GET /subscriptions', '<SubscriptionToggle> calls SubscriptionsController.store() / .destroy(id)'],
   },
 ]
 </script>
