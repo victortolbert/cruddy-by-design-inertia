@@ -9,7 +9,7 @@
             Podcasts
           </h1>
           <p class="mt-1 text-muted">
-            Discover shows and subscribe to the ones you follow.
+            Discover shows, follow episodes, pick up where you left off.
           </p>
         </div>
 
@@ -23,6 +23,14 @@
             size="sm"
           />
           <UButton
+            :to="inProgressIndex().url"
+            label="In progress"
+            icon="i-lucide-clock"
+            color="neutral"
+            variant="ghost"
+            size="sm"
+          />
+          <UButton
             :to="createPodcasts().url"
             label="New podcast"
             icon="i-lucide-plus"
@@ -30,6 +38,23 @@
           />
         </div>
       </div>
+
+      <section
+        v-if="inProgress.length"
+        class="space-y-4"
+      >
+        <h2 class="text-lg font-medium">
+          Continue listening
+        </h2>
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <EpisodeCard
+            v-for="progress in inProgress"
+            :key="progress.id"
+            :episode="progress.episode"
+            :progress="progress"
+          />
+        </div>
+      </section>
 
       <section
         v-if="subscribedPodcasts.length"
@@ -79,7 +104,7 @@
       </section>
 
       <p class="text-sm text-muted">
-        Built on the
+        Built on the four
         <ULink
           :to="patterns().url"
           class="underline"
@@ -92,14 +117,16 @@
 </template>
 
 <script setup lang="ts">
-import type { Paginated, Podcast } from '@/types'
+import type { Episode, Paginated, PlaybackProgress, Podcast } from '@/types'
 import { Head } from '@inertiajs/vue3'
 import { create as createPodcasts, index as indexPodcasts } from '@/actions/App/Http/Controllers/PodcastsController'
 import AppLayout from '@/layouts/app-layout.vue'
+import { index as inProgressIndex } from '@/routes/in-progress-episodes'
 import { patterns } from '@/routes/podcasts'
 import { index as subscriptionsIndex } from '@/routes/subscriptions'
 
 defineProps<{
+  inProgress: Array<Pick<PlaybackProgress, 'id' | 'percent_complete' | 'is_completed'> & { episode: Episode }>
   subscribedPodcasts: Podcast[]
   podcasts: Paginated<Podcast>
 }>()

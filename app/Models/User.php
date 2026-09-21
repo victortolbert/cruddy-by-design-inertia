@@ -55,6 +55,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Podcast::class, 'subscriptions')->withTimestamps();
     }
 
+    /**
+     * @return HasMany<PlaybackProgress, $this>
+     */
+    public function playbackProgress(): HasMany
+    {
+        return $this->hasMany(PlaybackProgress::class);
+    }
+
     public function subscriptionTo(Podcast $podcast): ?Subscription
     {
         return $this->subscriptions()->whereBelongsTo($podcast)->first();
@@ -63,6 +71,11 @@ class User extends Authenticatable
     public function isSubscribedTo(Podcast $podcast): bool
     {
         return $this->subscriptions()->whereBelongsTo($podcast)->exists();
+    }
+
+    public function playbackProgressFor(Episode $episode): ?PlaybackProgress
+    {
+        return $this->playbackProgress()->whereBelongsTo($episode)->first();
     }
 
     /**

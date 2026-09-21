@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EpisodeRequest;
 use App\Http\Resources\EpisodeResource;
+use App\Http\Resources\PlaybackProgressResource;
 use App\Http\Resources\PodcastResource;
 use App\Models\Episode;
 use App\Models\Podcast;
@@ -19,9 +20,12 @@ class EpisodesController extends Controller
     {
         Gate::authorize('view', $episode);
 
+        $progress = $request->user()->playbackProgressFor($episode);
+
         return Inertia::render('episodes/show', [
             'podcast' => PodcastResource::make($podcast)->resolve($request),
             'episode' => EpisodeResource::make($episode)->resolve($request),
+            'progress' => $progress ? PlaybackProgressResource::make($progress)->resolve($request) : null,
         ]);
     }
 

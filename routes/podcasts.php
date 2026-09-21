@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\EpisodesController;
+use App\Http\Controllers\InProgressEpisodesController;
+use App\Http\Controllers\PlaybackProgressController;
 use App\Http\Controllers\PodcastCoverImageController;
 use App\Http\Controllers\PodcastEpisodesController;
 use App\Http\Controllers\PodcastsController;
+use App\Http\Controllers\PublishedEpisodesController;
 use App\Http\Controllers\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +46,13 @@ Route::middleware('auth')->group(function () {
 
     // Tip 3: the pivot is its own resource
     Route::resource('subscriptions', SubscriptionsController::class)->only(['index', 'store', 'destroy']);
+
+    // Tip 4: states are resources
+    Route::post('published-episodes', [PublishedEpisodesController::class, 'store'])->name('published-episodes.store');
+    Route::delete('published-episodes/{episode}', [PublishedEpisodesController::class, 'destroy'])->name('published-episodes.destroy');
+
+    Route::put('playback-progress/{episode}', [PlaybackProgressController::class, 'update'])->name('playback-progress.update');
+    Route::delete('playback-progress/{episode}', [PlaybackProgressController::class, 'destroy'])->name('playback-progress.destroy');
+
+    Route::get('in-progress-episodes', [InProgressEpisodesController::class, 'index'])->name('in-progress-episodes.index');
 });

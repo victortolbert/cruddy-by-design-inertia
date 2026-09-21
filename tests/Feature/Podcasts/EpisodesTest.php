@@ -14,7 +14,8 @@ describe('show', function () {
         $this->get('/podcasts/syntax/episodes/css-grid')->assertInertia(fn (Assert $page) => $page
             ->component('episodes/show')
             ->where('episode.title', 'CSS Grid')
-            ->where('podcast.slug', 'syntax'));
+            ->where('podcast.slug', 'syntax')
+            ->where('progress', null));
     });
 
     test('returns 404 when the episode belongs to a different podcast', function () {

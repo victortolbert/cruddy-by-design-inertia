@@ -54,6 +54,7 @@
               v-if="podcast.is_owner"
               class="flex shrink-0 items-center gap-2 sm:pt-4"
             >
+              <PublishedEpisodeToggle :episode="episode" />
               <UButton
                 :to="editEpisodes([podcast, episode]).url"
                 label="Edit"

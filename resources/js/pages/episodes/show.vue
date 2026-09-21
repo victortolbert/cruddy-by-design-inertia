@@ -43,6 +43,7 @@
             v-if="podcast.is_owner"
             class="flex flex-wrap items-center gap-2 pt-1"
           >
+            <PublishedEpisodeToggle :episode="episode" />
             <UButton
               :to="editEpisodes([podcast, episode]).url"
               label="Edit"
@@ -55,11 +56,9 @@
         </div>
       </div>
 
-      <audio
-        controls
-        preload="metadata"
-        class="w-full"
-        :src="episode.audio_url"
+      <PlaybackProgress
+        :episode="episode"
+        :progress="progress"
       />
 
       <p
@@ -85,7 +84,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Episode, Podcast } from '@/types'
+import type { Episode, Podcast, PlaybackProgress as Progress } from '@/types'
 import { Head, Link } from '@inertiajs/vue3'
 import { edit as editEpisodes } from '@/actions/App/Http/Controllers/EpisodesController'
 import { show as showPodcasts } from '@/actions/App/Http/Controllers/PodcastsController'
@@ -94,5 +93,6 @@ import AppLayout from '@/layouts/app-layout.vue'
 defineProps<{
   podcast: Podcast
   episode: Episode
+  progress: Progress | null
 }>()
 </script>

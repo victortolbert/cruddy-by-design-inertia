@@ -97,7 +97,8 @@ const navigation = computed<NavigationMenuItem[]>(() => [
     icon: 'i-lucide-mic',
     to: podcastsIndex().url,
     active: currentPath.value.startsWith('/podcasts')
-      || currentPath.value.startsWith('/subscriptions'),
+      || currentPath.value.startsWith('/subscriptions')
+      || currentPath.value.endsWith('-episodes'),
   },
 ])
 

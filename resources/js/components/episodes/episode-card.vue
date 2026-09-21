@@ -46,16 +46,32 @@
     >
       {{ episode.description }}
     </p>
+
+    <div
+      v-if="progress"
+      class="flex items-center gap-3"
+    >
+      <UProgress
+        :model-value="progress.percent_complete"
+        :color="progress.is_completed ? 'success' : 'primary'"
+        size="sm"
+        class="flex-1"
+      />
+      <span class="text-sm text-muted tabular-nums">
+        {{ progress.is_completed ? 'Played' : `${progress.percent_complete}%` }}
+      </span>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Episode } from '@/types'
+import type { Episode, PlaybackProgress } from '@/types'
 import { Link } from '@inertiajs/vue3'
 import { show } from '@/actions/App/Http/Controllers/EpisodesController'
 
 withDefaults(defineProps<{
   episode: Episode
+  progress?: Pick<PlaybackProgress, 'percent_complete' | 'is_completed'> | null
   showPodcast?: boolean
-}>(), { showPodcast: true })
+}>(), { progress: null, showPodcast: true })
 </script>

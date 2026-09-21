@@ -46,6 +46,14 @@ export interface Episode {
   podcast?: Podcast
 }
 
+export interface PlaybackProgress {
+  id: number
+  position_seconds: number
+  is_completed: boolean
+  percent_complete: number
+  episode?: Episode
+}
+
 export interface Subscription {
   id: number
   podcast: Podcast

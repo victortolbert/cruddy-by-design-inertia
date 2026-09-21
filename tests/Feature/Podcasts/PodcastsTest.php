@@ -9,7 +9,7 @@ describe('index', function () {
         $this->get('/podcasts')->assertRedirect('/login');
     });
 
-    test('lists every podcast with subscriptions as a separate prop', function () {
+    test('lists every podcast with subscriptions and in-progress episodes as separate props', function () {
         $user = User::factory()->create();
         $subscribed = Podcast::factory()->create(['title' => 'Subscribed Show']);
         Podcast::factory()->create(['title' => 'Other Show']);
@@ -21,7 +21,8 @@ describe('index', function () {
             ->component('podcasts/index')
             ->has('subscribedPodcasts', 1, fn (Assert $podcast) => $podcast->where('title', 'Subscribed Show')->etc())
             ->has('podcasts.data', 2)
-            ->where('podcasts.meta.total', 2));
+            ->where('podcasts.meta.total', 2)
+            ->has('inProgress', 0));
     });
 });
 

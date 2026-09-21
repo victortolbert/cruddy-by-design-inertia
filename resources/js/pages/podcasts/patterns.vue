@@ -16,7 +16,7 @@
         <p class="text-muted">
           Every screen and every action in the podcast app is one of the seven resource verbs —
           index, show, create, store, edit, update, destroy. When something wanted a custom verb,
-          it became a new resource instead. The moves below are from Adam Wathan's
+          it became a new resource instead. The four moves below are from Adam Wathan's
           <ULink
             to="https://www.youtube.com/watch?v=MF0jFKvS4SI"
             target="_blank"
@@ -26,7 +26,7 @@
             Laracon 2017 talk
           </ULink>;
           here each one is a resource controller and, on the front end, a Vue component whose
-          Wayfinder actions are only resource verbs. The list grows with each lesson.
+          Wayfinder actions are only resource verbs.
         </p>
       </div>
 
@@ -79,7 +79,12 @@ const patterns = [
   {
     title: '3. Treat pivot models as their own resource',
     body: 'Subscribing is not Podcasts@subscribe. A Subscription is a real model with its own ID: subscribing is SubscriptionsController@store with a podcast_id, unsubscribing is @destroy with the subscription\'s ID, and your list is @index.',
-    code: ['POST /subscriptions', 'DELETE /subscriptions/{subscription}', 'GET /subscriptions', '<SubscriptionToggle> calls SubscriptionsController.store() / .destroy(id)'],
+    code: ['POST /subscriptions', 'DELETE /subscriptions/{subscription}', '<SubscriptionToggle> calls SubscriptionsController.store() / .destroy(id)'],
+  },
+  {
+    title: '4. Think of different states as different resources',
+    body: 'Publishing an episode is not Episodes@publish. A published episode is a state, so publishing is PublishedEpisodesController@store and unpublishing is @destroy. The same move shapes listening history: where you are in an episode is PlaybackProgressController@update / @destroy, and a state you can filter by is InProgressEpisodesController@index.',
+    code: ['POST /published-episodes', 'DELETE /published-episodes/{episode}', 'PUT /playback-progress/{episode}', 'GET /in-progress-episodes'],
   },
 ]
 </script>

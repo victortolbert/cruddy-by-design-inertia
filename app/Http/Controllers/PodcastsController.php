@@ -19,7 +19,21 @@ class PodcastsController extends Controller
     {
         $user = $request->user();
 
+        $inProgress = $user->playbackProgress()
+            ->inProgress()
+            ->whereHas('episode', fn ($query) => $query->published())
+            ->with('episode.podcast')
+            ->latest('updated_at')
+            ->take(6)
+            ->get();
+
         return Inertia::render('podcasts/index', [
+            'inProgress' => $inProgress->map(fn ($progress) => [
+                'id' => $progress->id,
+                'percent_complete' => $progress->percentComplete(),
+                'is_completed' => $progress->isCompleted(),
+                'episode' => EpisodeResource::make($progress->episode)->resolve($request),
+            ]),
             'subscribedPodcasts' => PodcastResource::collection($user->subscribedPodcasts()->orderBy('title')->get())->resolve($request),
             'podcasts' => PodcastResource::collection(Podcast::query()->orderBy('title')->paginate(24)),
         ]);
