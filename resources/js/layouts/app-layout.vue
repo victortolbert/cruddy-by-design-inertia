@@ -75,6 +75,7 @@ import type { DropdownMenuItem, NavigationMenuItem } from '@nuxt/ui'
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { computed, watch } from 'vue'
 import { dashboard, logout } from '@/routes'
+import { index as podcastsIndex } from '@/routes/podcasts'
 import { edit as editProfile } from '@/routes/profile'
 
 withDefaults(defineProps<{ title?: string }>(), { title: undefined })
@@ -90,6 +91,12 @@ const navigation = computed<NavigationMenuItem[]>(() => [
     icon: 'i-lucide-house',
     to: dashboard().url,
     active: currentPath.value === dashboard().url,
+  },
+  {
+    label: 'Podcasts',
+    icon: 'i-lucide-mic',
+    to: podcastsIndex().url,
+    active: currentPath.value.startsWith('/podcasts'),
   },
 ])
 
