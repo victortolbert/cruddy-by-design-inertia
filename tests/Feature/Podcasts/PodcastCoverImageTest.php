@@ -47,3 +47,26 @@ describe('update', function () {
         ])->assertForbidden();
     });
 });
+
+describe('destroy', function () {
+    test('removes the cover file and clears the path', function () {
+        $owner = User::factory()->create();
+        $podcast = Podcast::factory()->for($owner, 'owner')->create(['cover_path' => 'podcast-covers/old.jpg']);
+        Storage::disk(config('podcasts.cover_disk'))->put('podcast-covers/old.jpg', 'old');
+        $this->actingAs($owner);
+
+        $this->delete(route('podcast-cover-image.destroy', $podcast))->assertRedirect();
+
+        expect($podcast->fresh()->cover_path)->toBeNull();
+        Storage::disk(config('podcasts.cover_disk'))->assertMissing('podcast-covers/old.jpg');
+    });
+
+    test('forbids non-owners', function () {
+        $podcast = Podcast::factory()->withCoverImage()->create();
+        $this->actingAs(User::factory()->create());
+
+        $this->delete(route('podcast-cover-image.destroy', $podcast))->assertForbidden();
+
+        expect($podcast->fresh()->cover_path)->not->toBeNull();
+    });
+});

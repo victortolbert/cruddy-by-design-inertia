@@ -1,5 +1,5 @@
 <template>
-  <!-- Tip 2: a property edited on its own is its own resource — PodcastCoverImage@update -->
+  <!-- Tip 2: a property edited on its own is its own resource — PodcastCoverImage@update / @destroy -->
   <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
     <PodcastCover
       :podcast="podcast"
@@ -34,6 +34,16 @@
           :disabled="!form.cover"
           :loading="form.processing"
         />
+        <UButton
+          v-if="podcast.cover_image_url"
+          type="button"
+          color="neutral"
+          variant="ghost"
+          size="sm"
+          icon="i-lucide-trash-2"
+          label="Remove"
+          @click="remove"
+        />
       </div>
     </UForm>
   </div>
@@ -41,8 +51,8 @@
 
 <script setup lang="ts">
 import type { Podcast } from '@/types'
-import { useForm } from '@inertiajs/vue3'
-import { update } from '@/actions/App/Http/Controllers/PodcastCoverImageController'
+import { router, useForm } from '@inertiajs/vue3'
+import { destroy, update } from '@/actions/App/Http/Controllers/PodcastCoverImageController'
 
 const props = defineProps<{ podcast: Podcast }>()
 
@@ -56,5 +66,13 @@ function submit() {
       forceFormData: true,
       onSuccess: () => form.reset(),
     })
+}
+
+function remove() {
+  // eslint-disable-next-line no-alert
+  if (!window.confirm('Remove the cover image?'))
+    return
+
+  router.delete(destroy(props.podcast).url, { preserveScroll: true })
 }
 </script>

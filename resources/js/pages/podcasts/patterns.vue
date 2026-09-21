@@ -73,8 +73,8 @@ const patterns = [
   },
   {
     title: '2. Treat properties edited independently as their own resource',
-    body: 'The cover image is uploaded on its own, not alongside the title and description, so it is PodcastCoverImageController@update — never Podcasts@updateCoverImage.',
-    code: ['PUT /podcasts/{slug}/cover-image', '<PodcastCoverImage> calls PodcastCoverImageController.update()'],
+    body: 'The cover image is uploaded on its own, not alongside the title and description, so it is PodcastCoverImageController@update and @destroy — never Podcasts@updateCoverImage.',
+    code: ['PUT /podcasts/{slug}/cover-image', 'DELETE /podcasts/{slug}/cover-image', '<PodcastCoverImage> calls PodcastCoverImageController.update() / .destroy()'],
   },
 ]
 </script>

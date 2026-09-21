@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdatePodcastCoverImageRequest;
 use App\Models\Podcast;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 /**
  * Tip 2: a property edited on its own is its own resource. The cover image
- * has `update`; it is not a field on the podcast form.
+ * has `update` and `destroy`; it is not a field on the podcast form.
  */
 class PodcastCoverImageController extends Controller
 {
@@ -27,5 +28,18 @@ class PodcastCoverImageController extends Controller
         }
 
         return back()->with('success', __('Cover image updated.'));
+    }
+
+    public function destroy(Podcast $podcast): RedirectResponse
+    {
+        Gate::authorize('update', $podcast);
+
+        if ($podcast->cover_path) {
+            Storage::disk(config('podcasts.cover_disk'))->delete($podcast->cover_path);
+        }
+
+        $podcast->update(['cover_path' => null]);
+
+        return back()->with('success', __('Cover image removed.'));
     }
 }

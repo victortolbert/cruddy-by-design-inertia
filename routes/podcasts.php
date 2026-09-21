@@ -38,4 +38,5 @@ Route::middleware('auth')->group(function () {
 
     // Tip 2: a property edited on its own is its own resource
     Route::put('podcasts/{podcast:slug}/cover-image', [PodcastCoverImageController::class, 'update'])->name('podcast-cover-image.update');
+    Route::delete('podcasts/{podcast:slug}/cover-image', [PodcastCoverImageController::class, 'destroy'])->name('podcast-cover-image.destroy');
 });
