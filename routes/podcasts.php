@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
     // Episodes are addressed under their podcast because slugs are unique per podcast
     Route::resource('podcasts.episodes', EpisodesController::class)
-        ->only(['edit', 'update', 'destroy'])
+        ->only(['show', 'edit', 'update', 'destroy'])
         ->parameters(['podcasts' => 'podcast', 'episodes' => 'episode'])
         ->scoped(['podcast' => 'slug', 'episode' => 'slug'])
         ->names('episodes');

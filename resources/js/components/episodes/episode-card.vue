@@ -15,9 +15,15 @@
           {{ episode.podcast.title }}
         </p>
 
-        <p class="line-clamp-2 font-medium">
-          {{ episode.title }}
-        </p>
+        <Link
+          v-if="episode.podcast"
+          :href="show([episode.podcast, episode])"
+          class="block"
+        >
+          <p class="line-clamp-2 font-medium hover:underline">
+            {{ episode.title }}
+          </p>
+        </Link>
 
         <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
           <span v-if="episode.is_published">{{ episode.published_at_for_humans }}</span>
@@ -45,6 +51,8 @@
 
 <script setup lang="ts">
 import type { Episode } from '@/types'
+import { Link } from '@inertiajs/vue3'
+import { show } from '@/actions/App/Http/Controllers/EpisodesController'
 
 withDefaults(defineProps<{
   episode: Episode

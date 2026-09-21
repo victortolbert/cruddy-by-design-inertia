@@ -26,7 +26,7 @@
             :loading="form.processing"
           />
           <UButton
-            :to="indexPodcastEpisodes(podcast).url"
+            :to="showEpisodes([podcast, episode]).url"
             label="Cancel"
             color="neutral"
             variant="ghost"
@@ -55,8 +55,7 @@
 import type { EpisodeFormData } from '@/components/episodes/episode-form-fields.vue'
 import type { Episode, Podcast } from '@/types'
 import { Head, router, useForm } from '@inertiajs/vue3'
-import { destroy as destroyEpisodes, update as updateEpisodes } from '@/actions/App/Http/Controllers/EpisodesController'
-import { index as indexPodcastEpisodes } from '@/actions/App/Http/Controllers/PodcastEpisodesController'
+import { destroy as destroyEpisodes, show as showEpisodes, update as updateEpisodes } from '@/actions/App/Http/Controllers/EpisodesController'
 import AppLayout from '@/layouts/app-layout.vue'
 
 const props = defineProps<{

@@ -15,6 +15,16 @@ use Inertia\Response;
 
 class EpisodesController extends Controller
 {
+    public function show(Request $request, Podcast $podcast, Episode $episode): Response
+    {
+        Gate::authorize('view', $episode);
+
+        return Inertia::render('episodes/show', [
+            'podcast' => PodcastResource::make($podcast)->resolve($request),
+            'episode' => EpisodeResource::make($episode)->resolve($request),
+        ]);
+    }
+
     public function edit(Request $request, Podcast $podcast, Episode $episode): Response
     {
         Gate::authorize('update', $episode);
@@ -29,7 +39,7 @@ class EpisodesController extends Controller
     {
         $episode->update($request->episodeAttributes());
 
-        return redirect()->route('podcast-episodes.index', $podcast)->with('success', __('Episode updated.'));
+        return redirect()->route('episodes.show', [$podcast, $episode])->with('success', __('Episode updated.'));
     }
 
     public function destroy(Podcast $podcast, Episode $episode): RedirectResponse

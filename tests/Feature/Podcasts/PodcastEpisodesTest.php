@@ -55,7 +55,7 @@ describe('store', function () {
             'title' => 'React Hooks',
             'audio_url' => 'https://example.com/hooks.mp3',
             'duration_minutes' => 64,
-        ])->assertRedirect('/podcasts/syntax/episodes');
+        ])->assertRedirect('/podcasts/syntax/episodes/react-hooks');
 
         $this->assertDatabaseHas('episodes', [
             'podcast_id' => $podcast->id,

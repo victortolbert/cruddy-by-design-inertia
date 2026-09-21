@@ -56,6 +56,6 @@ class PodcastEpisodesController extends Controller
             'slug' => Episode::uniqueSlugFor($podcast, $request->validated('title')),
         ]);
 
-        return redirect()->route('podcast-episodes.index', $podcast)->with('success', __('Episode saved as a draft.'));
+        return redirect()->route('episodes.show', [$podcast, $episode])->with('success', __('Episode saved as a draft.'));
     }
 }
